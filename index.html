@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psc_unit 3_2</title>
+</head>
+<style>
+    body{
+        background-image: url("https://cdn.pixabay.com/photo/2016/01/27/15/25/space-1164579__340.png");
+    }
+    #query{
+        width: 300px;
+    
+        display: block;
+        justify-content: center;
+        
+
+    }
+    #results{
+        color: white;
+    }
+</style>
+<body>
+    <div class="container">
+        <input id="query" type="text" oninput="debouncing(main,1000)">
+        
+        <div id="results"></div>
+    </div>
+    
+</body>
+</html>
+<script>
+    let id;
+
+    async function getData(){
+
+        let query=document.getElementById("query").value
+
+        let url=`https://swapi.dev/api/people/?search=${query}`;
+
+        let res= await fetch(url);
+
+        let data= await res.json();
+        
+        return data.results;
+        
+    }
+
+    function append(data){
+
+        let container=document.getElementById("results");
+
+        container.innerHTML=null;
+
+        data.forEach(function(ele){
+
+            let p=document.createElement("p");
+            p.innerText=ele.name;
+
+            
+
+                
+
+                
+
+        
+
+
+            
+
+
+            container.append(p);
+
+        
+            
+        });
+    }
+
+    async function main(){
+
+        let data = await getData();
+
+        append(data);
+    };
+
+    function debouncing(func,delay){
+        if(id){
+            clearTimeout(id);
+        }
+        id = setTimeout(function(){
+            func();
+        },delay);
+    }
+
+    
+</script>
